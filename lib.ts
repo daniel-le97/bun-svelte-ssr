@@ -2,7 +2,8 @@ import * as path from "path";
 import { readdirSync, statSync } from "fs";
 import type { ServeOptions } from "bun";
 import { FileSystemRouter } from "bun";
-// import  htmlContent from './index.html'
+import  htmlContent from './index.html'
+import { hmr } from "./plugins/hmrScript.ts";
 
 export const PROJECT_ROOT = process.cwd()
 export const PUBLIC_DIR = path.resolve( PROJECT_ROOT, "public" );
@@ -72,12 +73,13 @@ export function serveFromDir (
         }
         
         // import index.html for use as the html shell
-        let html = await Bun.file('./index.html').text()
+        let html = htmlContent
 
         // console.log(html);
         
         // @ts-ignore rebuilt every build
-        const page = (await (await import(Bun.resolveSync('./build/ssr/entry/entry-server.js', process.cwd()))).render(match.filePath))
+        const page = (await import(match.filePath)).default.render()
+        // const page = (await (await import(Bun.resolveSync('./build/ssr/entry/entry-server.js', process.cwd()))).render(match.filePath))
         // console.log(page);
         
 
@@ -90,7 +92,7 @@ export function serveFromDir (
         
   
                     // set the page javascript we want to fetch for client
-        html = html.replace( '{{ dynamicPath }}', '/pages/' + builtMatch.src )
+        html = html.replace( '{{ dynamicPath }}', '/pages/' + builtMatch.src)
                     // add solids hydration script to the head
                     .replace('<!--html-head-->',  head)
                     // add the server side html to the html markup

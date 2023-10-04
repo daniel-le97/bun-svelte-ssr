@@ -12,7 +12,7 @@
       </a>
     </div>
     <h1 class="">home page</h1>
-  
+
     <div class="card">
       this is the counter component
       <Counter />

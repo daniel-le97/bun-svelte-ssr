@@ -3,7 +3,7 @@ import { statSync } from "fs";
 import type { ServeOptions } from "bun";
 import { FileSystemRouter } from "bun";
 // import  htmlContent from './index.html'
-import { serveDirectories, port, serveFromRouter, serveFromDir } from './lib.ts';
+import { serveDirectories, port, serveFromRouter, serveFromDir } from '../../lib.ts';
 // import { serveApiRoutes } from "./plugins/elysia/router.ts";
 
   // basic Bun native server to serve our app
@@ -23,6 +23,7 @@ import { serveDirectories, port, serveFromRouter, serveFromDir } from './lib.ts'
         reqPath = "/index.html";
       }
   
+      
       const serveDirectory = serveFromDir( serveDirectories, reqPath );
       if ( serveDirectory )
       {

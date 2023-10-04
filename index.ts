@@ -1,16 +1,14 @@
-// import './build.ts';
-
 import Elysia from "elysia";
-// import  htmlContent from './index.html'
 
 import { port, serveDirectories, serveFromDir, serveFromRouter } from "./lib.ts";
+import { build } from "./build.ts";
+import { ElysiaWS } from "elysia/ws";
+// import App from './pages/index.svelte'
+// const appster = App
+await build()
 
 
 const app = new Elysia()
-// this does not play well when trying to bundle atm
-// just return a w responde with headers set instead
-    // .use( html() )
-
     .get( '*', async ( ctx ) => {
         // console.log(ctx.request);
         const routerRes = await serveFromRouter(ctx.request)
