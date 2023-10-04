@@ -3,24 +3,27 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun build.tsx && bun dev.tsx --watch",
-    "build": "bun build.tsx",
+    "dev": "bun run build && bun index.ts --watch",
+    "build": "bun build.ts && bun run tw ",
     "serve": "bun dev.tsx",
-    "update": "bunx taze major -w && bun install"
+    "update": "bunx taze major -w && bun install",
+    "tw": "bunx tailwindcss -i ./assets/app.css -o ./assets/output.css"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "@unocss/svelte-scoped": "^0.56.5",
+    "bun-types": "latest",
+    "concurrently": "^8.2.1",
+    "svelte-preprocess": "^5.0.4",
+    "tailwindcss": "^3.3.3",
+    "unimport": "^3.4.0"
   },
   "peerDependencies": {
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@babel/core": "^7.23.0",
-    "@babel/preset-typescript": "^7.23.0",
-    "babel": "^6.23.0",
-    "babel-preset-solid": "^1.7.12",
     "consola": "^3.2.3",
-    "solid-js": "^1.7.12",
+    "elysia": "^0.7.15",
+    "svelte": "^4.2.1",
     "typescript": "^5.2.2"
   }
 }

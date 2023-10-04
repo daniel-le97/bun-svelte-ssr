@@ -2,10 +2,7 @@
 
 
 export async function render(path:string) {
-    
-    const App = await import(path)
-    const html = renderToString(() => <App.default />)
-    // console.log(html);
-    
+    const App = (await import(path))
+    const html = App.default.render()
   return { html }
 }
