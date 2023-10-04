@@ -45,7 +45,7 @@ export const build = async (prod = false) => {
 
     if (isProd || prod) {
         const prodBuild = await Bun.build( {
-            'entrypoints': [ './dev.tsx', './elysia.ts'],
+            'entrypoints': [ './dev.tsx', './index.ts'],
             'splitting': false,
             target: 'bun',
             minify: prod,
@@ -70,4 +70,4 @@ await Bun.write('./build/lib.d.ts', declarations)
 };
 // Note: we are invoking this here so it can be imported and ran directly at the beginning of the file
 // or we can call it from package.json
-await build(false);
+await build(true);
