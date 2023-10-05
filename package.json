@@ -13,14 +13,17 @@
   "devDependencies": {
     "bun-types": "latest",
     "concurrently": "^8.2.1",
+    "mdsvex": "^0.11.0",
     "svelte-preprocess": "^5.0.4",
     "tailwindcss": "^3.3.3",
-    "unimport": "^3.4.0"
+    "unimport": "^3.4.0",
+    "unocss": "^0.56.5"
   },
   "peerDependencies": {
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "chokidar": "^3.5.3",
     "consola": "^3.2.3",
     "elysia": "^0.7.15",
     "svelte": "^4.2.1",

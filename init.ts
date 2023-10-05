@@ -3,6 +3,8 @@ import { WatchEventType, watch } from "fs";
 
 import Elysia from "elysia";
 import { Server } from 'bun'
+import { BUILD_DIR } from "./lib.ts";
+import { clientBuild } from "./plugins/utils/buildOne.ts";
 
 // const start = Bun.nanoseconds()
 
@@ -19,7 +21,7 @@ const app = new Elysia()
   },
   open ( ws ) {
     ws.subscribe('refreshEvent')
-    console.log("HMR listening on ws://localhost:8080/ws");
+    console.log("LiveReload listening on ws://localhost:8080/ws");
   }
 }).listen(8080, (serv) =>{
     server.instance = serv
@@ -49,35 +51,36 @@ startServer();
 
 
 const fileWatch = async ( event: WatchEventType, filename: string | Error | undefined ) => {
-    const start = Bun.nanoseconds()
+    // const start = Bun.nanoseconds()
+    console.log(filename);
+    
     if ( filename instanceof Error )
     {
         process.exit( 1 );
     }
+
+
     
     if (filename?.includes('build' || 'node_modules') || event !== 'change') {
         
         return false
     }
         console.log( `Detected ${ event } in ${ filename }` );
-    
+        const start = Bun.nanoseconds()
     if ( serverProcess )
     {
-        // console.log( 'Restarting server...' );
-        serverProcess.kill();
+
+        const filePath = BUILD_DIR + '/client/pages/' + filename?.split('.')[0] + '.js'
+        console.log(filePath);
+        
+        const sourcePath = process.cwd() + '/pages/' +  filename
+       const outputs = (await clientBuild([sourcePath])).outputs
+        await Bun.write(filePath, outputs)
+
         isRestarting = false;
 
-        await serverProcess.exited;
-        serverProcess = startServer();
-        const tailwindcss = spawn({
-            cmd: [ 'bun', 'run', 'tw' ],
-            env: Bun.env,
-            stdio: [ 'inherit', 'inherit', 'inherit' ]
-        });
-        // console.log('sending reload');
-        Bun.sleepSync(1200)
         const end = Bun.nanoseconds()
-        console.log('refreshed in ', (end - start) / 1000000000);
+        console.log('refreshed in ', (end - start) / 1000000);
         
         server.instance?.publish('refreshEvent', 'reload')
             
@@ -86,7 +89,7 @@ const fileWatch = async ( event: WatchEventType, filename: string | Error | unde
 };
 
 const watcher = watch(
-    import.meta.dir ,
+    import.meta.dir + '/pages',
     { recursive: true },
     fileWatch
 );

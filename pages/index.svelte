@@ -3,7 +3,7 @@
   </script>
   
   <main>
-    <div class=" flex justify-center">
+    <div class=" flex justify-center border-opacity-0">
       <a href="https://bun.sh" target="_blank" rel="noreferrer"> 
         <img src="./bunlogo.svg" class="logo" alt="Vite Logo" />
       </a>
@@ -14,7 +14,7 @@
     <h1 class="">home page</h1>
 
     <div class="card">
-      this is the counter component
+dogs belong here      
       <Counter />
     </div>
     <p class="read-the-docs">
@@ -28,9 +28,11 @@
       padding: 1.5em;
       will-change: filter;
     }
+
     .logo:hover {
       filter: drop-shadow(0 0 2em #646cffaa);
     }
+
     .logo.svelte:hover {
       filter: drop-shadow(0 0 2em #ff3e00aa);
     }

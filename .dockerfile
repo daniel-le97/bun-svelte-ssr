@@ -14,15 +14,13 @@ FROM oven/bun
 
 WORKDIR /app
 
-# Copy the built application from the builder stage
-COPY --from=builder /app/build /app
+# Copy only the built artifacts and necessary files from the builder stage
+COPY --from=builder /app /app
 
 # Set the NODE_ENV to production
 ENV PORT 3000
 ENV NODE_ENV production
 
-# Expose the port your application listens on (assuming 3000)
-EXPOSE 3000
-
 # Define the command to start your application
-CMD ["bun", "index.js"] 
+CMD ["bun", "run", "serve"]
+
