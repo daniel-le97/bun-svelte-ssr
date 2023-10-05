@@ -5,7 +5,7 @@ import { build } from "./build.ts";
 import { ElysiaWS } from "elysia/ws";
 // import App from './pages/index.svelte'
 // const appster = App
-await build()
+// await build()
 
 
 const app = new Elysia()

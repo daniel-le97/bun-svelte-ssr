@@ -1,19 +1,18 @@
-# bun-solid-ssr
+# bun-svelte-ssr
 
 To install dependencies:
 
 ```bash
-bun create daniel-le97/bun-solid-ssr
+bun create daniel-le97/bun-svelte-ssr
 ```
 
 
 
 To run:
 ```bash
-bun run dev
+bun run init
 ```
-uses:
-[unjs-unimport](https://github.com/unjs/unimport): to auto import!
 
 
-check out the vue version at [bun-vue-ssr](https://github.com/daniel-le97/bun-vue-ssr)
+
+check out the solid-js version at [bun-solid-ssr](https://github.com/daniel-le97/bun-solid-ssr)

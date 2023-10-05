@@ -5,8 +5,10 @@ import Elysia from "elysia";
 import { Server } from 'bun'
 import { BUILD_DIR } from "./lib.ts";
 import { clientBuild } from "./plugins/utils/buildOne.ts";
+import { build } from "./build.ts";
 
 // const start = Bun.nanoseconds()
+await build(false)
 
 let serverProcess: Subprocess | null = null;
 let isRestarting = false;
