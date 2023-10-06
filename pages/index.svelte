@@ -11,10 +11,12 @@
         <img src='./svelte.svg' class="logo svelte" alt="Svelte Logo" />
       </a>
     </div>
+
+
     <h1 class="">home page</h1>
 
     <div class="card">
-dogs belong here      
+
       <Counter />
     </div>
     <p class="read-the-docs">

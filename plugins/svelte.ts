@@ -5,6 +5,7 @@ import { AutoPreprocessOptions } from "svelte-preprocess/dist/types/index";
 import { transpileTS } from "./utils/transpile.ts";
 import { MdsvexCompileOptions, compile, mdsvex } from "mdsvex";
 import { PreprocessorGroup } from "svelte/compiler";
+import { buildCache, buildServerCache } from "./cache.ts";
 
 
 type Options = {
@@ -18,13 +19,14 @@ type Options = {
 
 };
 
-export const buildCache = new Map<string, string>()
+
 
 export let generateTypes: string;
 export const sveltePlugin = ( options: Options = {
     'ssr': false,
     preprocessOptions: {
         'markupTagName': 'svx',
+        
         typescript ( { content } ) {
             const code = transpileTS( content );
             return { code };
@@ -36,6 +38,11 @@ export const sveltePlugin = ( options: Options = {
         async setup ( build ) {
             const target = build.config?.target === 'browser' ? 'dom' : 'ssr';
             build.onLoad( { filter: /\.(svelte)$/ }, async ( { path } ) => {
+                const cache = target === 'dom' ? buildCache : buildServerCache
+                const has = cache.get(path)
+                if (has) {
+                   return {contents: has, loader: 'js'}
+                }
                 const svelte = await import( "svelte/compiler" );
                 let content = await Bun.file( path ).text();
                 const processed = await svelte.preprocess( content, preprocess( options.preprocessOptions )  );
@@ -43,10 +50,11 @@ export const sveltePlugin = ( options: Options = {
                     filename: path,
                     generate: target,
                     hydratable: options.ssr,
+                    // 'css': 'external'
                 } );
                 // console.log(compiled.css);
 
-                
+                cache.set(path, compiled.js.code)
                 return { contents: compiled.js.code, loader: 'js' };
             } );
             build.onLoad( { filter: /\.svx$/ }, async ( { path } ) => {
@@ -61,7 +69,6 @@ export const sveltePlugin = ( options: Options = {
                     generate: target,
                     hydratable: options.ssr,
                 } );
-                
                 return { contents: compiled.js.code, loader: 'js' };
             } );
            

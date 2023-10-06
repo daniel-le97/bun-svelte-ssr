@@ -4,16 +4,19 @@
   "type": "module",
   "scripts": {
     "dev": "bun run build && bun run elysia",
-    "build": "bun build.ts && bun run tw ",
+    "build": "bun build.ts",
     "serve": "concurrently \"bun --watch index.ts\" \"bun build.ts --watch\" \"bun run tw\"",
-    "init": "bun run tw && bun run init.ts",
+    "init": "bun run init.ts",
     "update": "bunx taze major -w && bun install",
     "tw": "bunx tailwindcss -i ./assets/app.css -o ./assets/output.css"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.16",
     "bun-types": "latest",
     "concurrently": "^8.2.1",
     "mdsvex": "^0.11.0",
+    "postcss": "^8.4.31",
+    "postcss-import": "^15.1.0",
     "svelte-preprocess": "^5.0.4",
     "tailwindcss": "^3.3.3"
   },
@@ -21,6 +24,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "chokidar": "^3.5.3",
     "elysia": "^0.7.15",
     "svelte": "^4.2.1",
     "typescript": "^5.2.2"

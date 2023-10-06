@@ -9,6 +9,11 @@ COPY . .
 # Install dependencies and build the application
 RUN bun install && bun run build
 
+
+
+
+
+
 # Stage 2: Create the production image
 FROM oven/bun
 

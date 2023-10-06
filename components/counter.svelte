@@ -1,10 +1,10 @@
 <script>
-	let count = 0;
+	let count = 0
 	let state = {}
 </script>
 
 <button on:click={() => count++}>
-	clicks: {count}
+	{count}
 </button>
 <style>
 	button {
@@ -12,4 +12,5 @@
 		font-family: 'Comic Sans MS', cursive;
 		font-size: 2em;
 	}
+
 </style>

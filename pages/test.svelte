@@ -12,7 +12,6 @@
       </a>
     </div>
     <h1>test page</h1>
-  
     this is the counter component
     <div class="card">
         <Counter />
