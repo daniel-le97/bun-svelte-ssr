@@ -10,6 +10,18 @@ const isProd = process.env.NODE_ENV === 'production';
 const PROJECT_ROOT = process.cwd();
 const BUILD_DIR = path.resolve( PROJECT_ROOT, "build" );
 
+const declarations = `
+/// <reference lib='dom'/>
+/// <reference lib='dom.iterable'/>\n
+        declare module '*.html' {
+            const content: string;
+            export default content;
+        }\n
+        declare module '*.svg' {
+            const content: string;
+            export default content;
+        }`
+
 let hasbuilt = false
 
 export const build = async (prod = false) => {
@@ -36,7 +48,8 @@ export const build = async (prod = false) => {
         
         if ( existsSync( BUILD_DIR ) )
         {
-            rmSync( BUILD_DIR, { recursive: true, force: true } );
+            rmSync( BUILD_DIR + '/client', { recursive: true, force: true } );
+            rmSync( BUILD_DIR + '/ssr', { recursive: true, force: true } );
         }
     const cssBuild = await postcssAPI( PROJECT_ROOT + '/assets/app.css', PROJECT_ROOT + '/assets/output.css' )
 
@@ -65,41 +78,23 @@ export const build = async (prod = false) => {
         
         if (isProd || prod) {
             const prodBuild = await Bun.build( {
-                'entrypoints': [ './dev.tsx', './index.ts'],
+                'entrypoints': ['./index.ts'],
                 'splitting': false,
                 target: 'bun',
                 minify: prod,
                 outdir: './build',
                 plugins: [html]
             } );
-        }
-        
-        const declarations = `
-/// <reference lib='dom'/>
-/// <reference lib='dom.iterable'/>\n
-        declare module '*.html' {
-            const content: string;
-            export default content;
-        }\n
-        declare module '*.svg' {
-            const content: string;
-            export default content;
-        }`
-        // await Bun.write('./build/imports.d.ts', svelteCache)
-        if (!prod) {
-            await Bun.write('./build/lib.d.ts', declarations)
-            
+            await Bun.write('./build/lib.d.ts', declarations) 
         }
 
-        // console.log('finished');
-        console.log(clientBuild.success, serverBuild.success);
+    console.log(clientBuild.success, serverBuild.success);
     hasbuilt = false;
     const end = performance.now();
     const elapsedMilliseconds = end - start
-    console.log( `Time taken: ${ elapsedMilliseconds } ms` );
+    console.log( `rebundled in: ${ elapsedMilliseconds } ms` );
         return {clientBuild, serverBuild}
         
-        // await Bun.write('./build/ssr/main.css.js', `export default ${JSON.stringify(generateCSS)}`)
     };
 
 // Note: we are invoking this here so it can be imported and ran directly at the beginning of the file

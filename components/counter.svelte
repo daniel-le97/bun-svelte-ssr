@@ -4,7 +4,7 @@
 </script>
 
 <button on:click={() => count++}>
-	{count}
+	clicks: {count}
 </button>
 <style>
 	button {
