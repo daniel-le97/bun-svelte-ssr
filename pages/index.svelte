@@ -1,9 +1,12 @@
   <script lang="ts">
     import Counter from '../components/counter.svelte'
+    // const style = tw('flex justify-center bg-black')
+    // console.log(style);
+    
   </script>
   
   <main>
-    <div class=" flex justify-center border-opacity-0">
+    <div class='flex justify-center'>
       <a href="https://bun.sh" target="_blank" rel="noreferrer"> 
         <img src="./bunlogo.svg" class="logo" alt="Vite Logo" />
       </a>
@@ -16,7 +19,6 @@
     <h1 class="">home page</h1>
 
     <div class="card">
-
       <Counter />
     </div>
     <p class="read-the-docs">

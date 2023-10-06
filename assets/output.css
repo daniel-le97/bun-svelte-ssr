@@ -491,8 +491,13 @@ video {
 .justify-center {
   justify-content: center;
 }
-.border-opacity-0 {
-  --tw-border-opacity: 0;
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+.bg-slate-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(203 213 225 / var(--tw-bg-opacity));
 }
 .drop-shadow {
   --tw-drop-shadow: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));

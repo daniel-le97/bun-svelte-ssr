@@ -54,54 +54,59 @@ startServer();
 
 
 const fileWatch = async ( event: WatchEventType, filename: string | Error | undefined ) => {
-    // const start = Bun.nanoseconds()
-    // console.log(filename);
-    
-    if ( filename instanceof Error )
-    {
-        process.exit( 1 );
-    }
-
-    if ( !filename || event !== 'change' )
-    {
-        return;
-    }
-
-    const exclude = [ 'build', 'node_modules', '.git' , '.css', 'README'];
-    if ( exclude.find( excl => filename?.includes( excl ) ) )
-    {
-        return;
-    }
-    if ( !serverProcess )
-    {
-        return;
-    }
-
-    console.log( `Detected ${ event } in ${ filename }` );
-    buildCache.forEach( ( value, key ) => {
-        // key.includes(filename)
-        if ( key.includes( filename ) )
-        {
-            buildCache.set( key, '' );
-            buildServerCache.set( key, '' );
-        }
-    } );
-    const start = performance.now()
-    await build( false )
-    const end = performance.now();
-    const elapsedMilliseconds = end - start
-    console.log( `rebundled in: ${ elapsedMilliseconds } ms` );
-
-    isRestarting = false;
-    // console.log('refreshed in ', (end - start) / 1000000);
+    try {
         
-    server.instance?.publish('refreshEvent', 'reload')
-            
-};
 
 
-
-const watcher = watch(
+        if ( filename instanceof Error )
+        {
+            process.exit( 1 );
+        }
+        
+        if ( !filename || event !== 'change' )
+        {
+            return;
+        }
+        
+        const exclude = [ 'build', 'node_modules', '.git' , '.css', 'README'];
+        if ( exclude.find( excl => filename?.includes( excl ) ) )
+        {
+            return;
+        }
+        if ( !serverProcess )
+        {
+            return;
+        }
+        
+        console.log( `Detected ${ event } in ${ filename }` );
+        buildCache.forEach( ( value, key ) => {
+            // key.includes(filename)
+            if ( key.includes( filename ) )
+            {
+                buildCache.set( key, '' );
+                buildServerCache.set( key, '' );
+            }
+        } );
+        const start = performance.now()
+        await build( false )
+        const end = performance.now();
+        const elapsedMilliseconds = end - start
+        console.log( `rebundled in: ${ elapsedMilliseconds } ms` );
+        
+        isRestarting = false;
+        // console.log('refreshed in ', (end - start) / 1000000);
+        
+        server.instance?.publish('refreshEvent', 'reload')
+    } catch (error) {
+        serverProcess ? serverProcess.kill(1) : ''
+        process.exit(1)
+    }
+        
+    };
+    
+    
+    
+    const watcher = watch(
     import.meta.dir,
     { recursive: true },
     fileWatch
