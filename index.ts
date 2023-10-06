@@ -1,6 +1,6 @@
 import Elysia from "elysia";
 
-import { port, serveDirectories, serveFromDir, serveFromRouter } from "./lib.ts";
+import { isProduction, port, serveDirectories, serveFromDir, serveFromRouter } from "./lib.ts";
 import { build } from "./build.ts";
 import { ElysiaWS } from "elysia/ws";
 // import App from './pages/index.svelte'
@@ -27,6 +27,9 @@ const app = new Elysia()
         return serveDirectory;
       }
     } ).listen(port)
-console.log(`http://localhost:${port}`);
+
+
+      console.log(`http://localhost:${port}`);
+
 
 export type ElysiaApp = typeof app

@@ -3,17 +3,14 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun run build && bun run elysia",
+    "start": "bun ./build/index.js",
     "build": "bun build.ts",
-    "serve": "concurrently \"bun --watch index.ts\" \"bun build.ts --watch\" \"bun run tw\"",
-    "init": "bun run init.ts",
-    "update": "bunx taze major -w && bun install",
-    "tw": "bunx tailwindcss -i ./assets/app.css -o ./assets/output.css"
+    "dev": "bun run init.ts",
+    "update": "bunx taze major -w && bun install"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",
     "bun-types": "latest",
-    "concurrently": "^8.2.1",
     "mdsvex": "^0.11.0",
     "postcss": "^8.4.31",
     "postcss-import": "^15.1.0",
@@ -24,7 +21,6 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "chokidar": "^3.5.3",
     "elysia": "^0.7.15",
     "svelte": "^4.2.1",
     "typescript": "^5.2.2"

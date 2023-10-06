@@ -88,7 +88,12 @@ export const build = async (prod = false) => {
             await Bun.write('./build/lib.d.ts', declarations) 
         }
 
-    console.log(clientBuild.success, serverBuild.success);
+        if (!isProd) {
+            const rebuilt = clientBuild.success && serverBuild.success
+            const status = `rebuilt successfully: ${rebuilt}`
+            console.log(status);
+            
+        }
     hasbuilt = false;
     // const end = performance.now();
     // const elapsedMilliseconds = end - start
