@@ -25,7 +25,7 @@ const declarations = `
 let hasbuilt = false
 
 export const build = async (prod = false) => {
-    const start = performance.now();
+    // const start = performance.now();
     if ( hasbuilt === true )
     {
         return;
@@ -90,9 +90,9 @@ export const build = async (prod = false) => {
 
     console.log(clientBuild.success, serverBuild.success);
     hasbuilt = false;
-    const end = performance.now();
-    const elapsedMilliseconds = end - start
-    console.log( `rebundled in: ${ elapsedMilliseconds } ms` );
+    // const end = performance.now();
+    // const elapsedMilliseconds = end - start
+    // console.log( `rebundled in: ${ elapsedMilliseconds } ms` );
         return {clientBuild, serverBuild}
         
     };

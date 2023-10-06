@@ -24,9 +24,9 @@ const app = new Elysia()
   },
   open ( ws ) {
     ws.subscribe('refreshEvent')
-    console.log("LiveReload listening on ws://localhost:8080/ws");
+    console.log("LiveReload listening on ws://localhost:8127/ws");
   }
-}).listen(8080, (serv) =>{
+}).listen(8127, (serv) =>{
     server.instance = serv
 })
 
@@ -86,7 +86,11 @@ const fileWatch = async ( event: WatchEventType, filename: string | Error | unde
             buildServerCache.set( key, '' );
         }
     } );
+    const start = performance.now()
     await build( false )
+    const end = performance.now();
+    const elapsedMilliseconds = end - start
+    console.log( `rebundled in: ${ elapsedMilliseconds } ms` );
 
     isRestarting = false;
     // console.log('refreshed in ', (end - start) / 1000000);
