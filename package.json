@@ -5,7 +5,7 @@
   "scripts": {
     "start": "bun ./build/index.js",
     "build": "bun build.ts",
-    "dev": "bun run init.ts",
+    "dev": "bun run dev.ts",
     "update": "bunx taze major -w && bun install"
   },
   "devDependencies": {
