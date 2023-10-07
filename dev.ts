@@ -3,10 +3,9 @@ import { WatchEventType, watch } from "fs";
 import Elysia from "elysia";
 import { Server } from 'bun'
 import { BUILD_DIR } from "./lib.ts";
-import { clientBuild } from "./plugins/utils/buildOne.ts";
+
 import { build } from "./build.ts";
-import { buildCache, buildServerCache } from "./plugins/cache.ts";
-import chokidar from 'chokidar'
+import { buildCache, buildServerCache } from "./plugins/utils/cache.ts";
 
 // const start = Bun.nanoseconds()
 // await build(false)

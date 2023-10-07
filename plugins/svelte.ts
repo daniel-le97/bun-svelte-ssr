@@ -5,7 +5,7 @@ import { AutoPreprocessOptions } from "svelte-preprocess/dist/types/index";
 import { transpileTS } from "./utils/transpile.ts";
 import { MdsvexCompileOptions, compile, mdsvex } from "mdsvex";
 import { PreprocessorGroup } from "svelte/compiler";
-import { buildCache, buildServerCache } from "./cache.ts";
+import { buildCache, buildServerCache } from "./utils/cache.ts";
 
 type Options = {
     preprocessOptions?: AutoPreprocessOptions;

@@ -2,13 +2,13 @@
 
 This project is a work in progress and may not be fully complete. Please use it at your own discretion.
 
+# Notes
+
 To install dependencies:
 
 ```bash
 bun create daniel-le97/bun-svelte-ssr
 ```
-
-
 
 To run:
 
@@ -23,6 +23,8 @@ bun run build
 # // final entrypoint to the server is available at /build/index.js
 bun run start
 ```
+
+A dockerfile is located at ./.dockerfile for ease of deployments
 
 
 
