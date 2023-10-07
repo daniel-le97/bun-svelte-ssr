@@ -59,7 +59,7 @@ export const build = async (prod = false) => {
             
             // builds the files our client will be fetching
             const clientBuild = await Bun.build( {
-                entrypoints: [ import.meta.dir + '/entry/entry-client.tsx', ...Object.values( router.routes ) ],
+                entrypoints: [ import.meta.dir + '/entry/entry-client.ts', ...Object.values( router.routes ) ],
                 splitting: true,
                 target: 'browser',
                 outdir: './build/client',
@@ -69,7 +69,7 @@ export const build = async (prod = false) => {
             
             // builds the files our server will be using
             const serverBuild = await Bun.build( {
-                entrypoints: [import.meta.dir + '/entry/entry-server.tsx',...Object.values( router.routes ),],
+                entrypoints: [import.meta.dir + '/entry/entry-server.ts',...Object.values( router.routes ),],
                 splitting: true,
                 target: 'bun',
                 minify: prod,
