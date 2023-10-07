@@ -7,7 +7,7 @@ import { MdsvexCompileOptions, compile, mdsvex } from "mdsvex";
 import { PreprocessorGroup } from "svelte/compiler";
 import { buildCache, buildServerCache } from "./cache.ts";
 
-
+import markdown from 'svelte-preprocess-markdown'
 type Options = {
     preprocessOptions?: AutoPreprocessOptions;
     /**
@@ -61,8 +61,8 @@ export const sveltePlugin = ( options: Options = {
                 const svelte = await import( "svelte/compiler" );
                 let content = await Bun.file( path ).text();
                 // currently mdsvex does not work as a preprocessor directly
-                const svx = await compile(content, options.svx) 
-                const processed = await svelte.preprocess( svx?.code!, [preprocess( options.preprocessOptions)] );
+                // const svx = await compile(content, options.svx) 
+                const processed = await svelte.preprocess( svx?.code!, markdown );
 
                 const compiled = svelte.compile( processed.code, {
                     filename: path,

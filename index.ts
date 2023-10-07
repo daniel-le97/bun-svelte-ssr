@@ -3,12 +3,17 @@ import Elysia from "elysia";
 import { isProduction, port, serveDirectories, serveFromDir, serveFromRouter } from "./lib.ts";
 import { build } from "./build.ts";
 import { ElysiaWS } from "elysia/ws";
+import { autoroutes } from "elysia-autoroutes";
 // import App from './pages/index.svelte'
 // const appster = App
 // await build()
 
 
 const app = new Elysia()
+  .use(autoroutes({
+    'prefix': 'api',
+    routesDir: './routes'
+  }))
     .get( '*', async ( ctx ) => {
         // console.log(ctx.request);
         const routerRes = await serveFromRouter(ctx.request)
