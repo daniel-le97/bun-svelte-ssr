@@ -4,6 +4,7 @@ import * as path from 'path';
 import { existsSync, rmSync } from "fs";
 import { html } from "./plugins/html.ts";
 import { postcssAPI } from "./plugins/postcss.ts";
+import { logger } from "./plugins/utils/logger.ts";
 // import { restarting } from "./plugins/cache.ts";
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -34,7 +35,7 @@ export const build = async (prod = false) => {
         }
         // hasbuilt = true
         
-        console.log('rebuilding bundle..');
+        logger.info('rebuilding bundle..');
         
         
         
@@ -95,8 +96,8 @@ export const build = async (prod = false) => {
             
             if (!isProd) {
                 const rebuilt = clientBuild.success && serverBuild.success
-                const status = `rebuilt successfully: ${rebuilt}`
-                console.log(status);
+                const status = (type : 'successfull' | 'unsuccessfull') =>  `rebuild ${type}: ${rebuilt}`
+                rebuilt ? logger.success(status('successfull')) : logger.error(status('unsuccessfull'))
                 
             }
             hasbuilt = false;

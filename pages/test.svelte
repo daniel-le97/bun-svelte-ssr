@@ -4,11 +4,11 @@
   
   <main>
     <div>
-      <a href="https://vitejs.dev" target="_blank" rel="noreferrer"> 
-        <img src="./bunlogo.svg" class="logo" alt="Vite Logo" />
+      <a href="https://bun.sh" target="_blank" rel="noreferrer"> 
+        <img src="./bunlogo.svg" class="logo" alt="Bun Logo" />
       </a>
       <a href="https://svelte.dev" target="_blank" rel="noreferrer"> 
-        <img src='./logo.svg' class="logo svelte" alt="Svelte Logo" />
+        <img src='./svelte.svg' class="logo svelte" alt="Svelte Logo" />
       </a>
     </div>
     <h1>test page</h1>
@@ -18,7 +18,7 @@
     </div>
   
     <p class="read-the-docs">
-      Click on the Vite and Svelte logos to learn more
+      Click on the bun and Svelte logos to learn more
     </p>
   </main>
   

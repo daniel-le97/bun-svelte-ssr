@@ -7,5 +7,5 @@ import Counter from '../components/counter.svelte';
 
 # What i wrote last week
 
-Why am i so smart
+this is markdown!
 <Counter/>

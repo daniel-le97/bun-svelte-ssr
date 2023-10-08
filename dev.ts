@@ -1,14 +1,11 @@
-import { Subprocess, spawn, spawnSync } from "bun";
+import { Subprocess, spawn } from "bun";
 import { WatchEventType, watch } from "fs";
 import Elysia from "elysia";
 import { Server } from 'bun'
-import { BUILD_DIR } from "./lib.ts";
-
 import { build } from "./build.ts";
 import { buildCache, buildServerCache } from "./plugins/utils/cache.ts";
+import { logger } from "./plugins/utils/logger.ts";
 
-// const start = Bun.nanoseconds()
-// await build(false)
 
 let serverProcess: Subprocess | null = null;
 let isRestarting = false;
@@ -23,7 +20,7 @@ const app = new Elysia()
   },
   open ( ws ) {
     ws.subscribe('refreshEvent')
-    console.log("LiveReload listening on ws://localhost:8127/ws");
+    logger.info("LiveReload listening on ws://localhost:8127/ws");
   }
 }).listen(8127, (serv) =>{
     server.instance = serv
@@ -32,7 +29,7 @@ const app = new Elysia()
 
 function startServer() {
     isRestarting = true;
-    // console.log( 'Starting server...' );
+    logger.start( 'Starting server...' );
     serverProcess = spawn( {
         cmd: [ 'bun', 'index.ts' ],
         env: Bun.env,
@@ -41,6 +38,7 @@ function startServer() {
     const exitCode = serverProcess.exitCode;
     if ( exitCode )
     {
+        
         process.exit( exitCode );
     }
     return serverProcess;
@@ -54,9 +52,6 @@ startServer();
 
 const fileWatch = async ( event: WatchEventType, filename: string | Error | undefined ) => {
     try {
-        
-
-
         if ( filename instanceof Error )
         {
             process.exit( 1 );
@@ -77,7 +72,7 @@ const fileWatch = async ( event: WatchEventType, filename: string | Error | unde
             return;
         }
         
-        console.log( `Detected ${ event } in ${ filename }` );
+        logger.info( `Detected ${ event } in ${ filename }` );
         buildCache.forEach( ( value, key ) => {
             // key.includes(filename)
             if ( key.includes( filename ) )
@@ -90,13 +85,14 @@ const fileWatch = async ( event: WatchEventType, filename: string | Error | unde
         await build( false )
         const end = performance.now();
         const elapsedMilliseconds = end - start
-        console.log( `rebundled in: ${ elapsedMilliseconds } ms` );
+        logger.info( `rebundled in: ${ elapsedMilliseconds } ms` );
         
         isRestarting = false;
         // console.log('refreshed in ', (end - start) / 1000000);
         
         server.instance?.publish('refreshEvent', 'reload')
     } catch (error) {
+        logger.warn(error)
         serverProcess ? serverProcess.kill(1) : ''
         process.exit(1)
     }

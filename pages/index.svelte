@@ -6,6 +6,10 @@
   </script>
   
   <main>
+    <div class=" space-x-4">
+      <a href="/md">mdsvex</a>
+      <a href="/test">test</a>
+    </div>
     <div class='flex justify-center'>
       <a href="https://bun.sh" target="_blank" rel="noreferrer"> 
         <img src="./bunlogo.svg" class="logo" alt="Vite Logo" />
@@ -16,8 +20,8 @@
     </div>
 
 
-    <h1 class="">home page</h1>
-
+    <h1 class="">homepage</h1>
+    make changes to pages/index.svelte to see your page update in real-time!
     <div class="card">
       <Counter />
     </div>

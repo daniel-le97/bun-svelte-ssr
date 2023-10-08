@@ -51,7 +51,6 @@ export const sveltePlugin = ( options: Options = {
                     hydratable: options.ssr,
                     // 'css': 'external'
                 } );
-                // console.log(compiled.css);
 
                 cache.set(path, compiled.js.code)
                 return { contents: compiled.js.code, loader: 'js' };

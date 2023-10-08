@@ -3,6 +3,7 @@ import Elysia from "elysia";
 import { isProduction, port, serveDirectories, serveFromDir, serveFromRouter } from "./lib.ts";
 
 import { autoroutes } from "elysia-autoroutes";
+import { logger } from "./plugins/utils/logger.ts";
 
 
 const app = new Elysia()
@@ -30,7 +31,7 @@ const app = new Elysia()
     } ).listen(port)
 
 
-      console.log(`http://localhost:${port}`);
+      logger.box(`http://localhost:${port}`);
 
 
 export type ElysiaApp = typeof app

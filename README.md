@@ -2,6 +2,9 @@
 
 This project is a work in progress and may not be fully complete. Please use it at your own discretion.
 
+read:
+[getting started](./docs/1.starting.md) as a high level overview of why and how this works under the hood!
+
 # Notes
 
 To install dependencies:
@@ -20,8 +23,8 @@ for deploying:
 ```bash
 # // all needed files get built to the /build directory
 bun run build
-# // final entrypoint to the server is available at /build/index.js
-bun run start
+
+bun run start # or bun ./build/index.js
 ```
 
 A dockerfile is located at ./.dockerfile for ease of deployments
@@ -34,3 +37,4 @@ A dockerfile is located at ./.dockerfile for ease of deployments
 - mdsvex or .svx extensions mostly work, but we will need to add it as a real svelte preprocess step instead of a compiling step
 
 check out the solid-js version at [bun-solid-ssr](https://github.com/daniel-le97/bun-solid-ssr)
+
