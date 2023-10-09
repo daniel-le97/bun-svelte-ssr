@@ -1,8 +1,5 @@
   <script lang="ts">
     import Counter from '../components/counter.svelte'
-    // const style = tw('flex justify-center bg-black')
-    // console.log(style);
-    
   </script>
   
   <main>
@@ -20,8 +17,8 @@
     </div>
 
 
-    <h1 class="">homepage</h1>
-    make changes to pages/index.svelte to see your page update in real-time!
+    <h1 class=" text-blue-300">homepage</h1>
+    make changes to pages/index.svelte to see changes in real time!
     <div class="card">
       <Counter />
     </div>
@@ -45,6 +42,6 @@
       filter: drop-shadow(0 0 2em #ff3e00aa);
     }
     .read-the-docs {
-      color: #888;
+      color: rgba(146, 149, 146, 0.635);
     }
   </style>
