@@ -1,11 +1,10 @@
 import { BunPlugin, FileSystemRouter, Target } from "bun";
-import { generateTypes, sveltePlugin } from "./plugins/svelte.ts";
+import { sveltePlugin } from "./plugins/svelte.ts";
 import * as path from 'path';
 import { existsSync, rmSync } from "fs";
 import { html } from "./plugins/html.ts";
 import { postcssAPI } from "./plugins/postcss.ts";
 import { logger } from "./plugins/utils/logger.ts";
-// import { restarting } from "./plugins/cache.ts";
 
 const isProd = process.env.NODE_ENV === 'production';
 const PROJECT_ROOT = process.cwd();
@@ -64,7 +63,7 @@ export const build = async (prod = false) => {
                 splitting: true,
                 target: 'browser',
                 outdir: './build/client',
-                minify: prod,
+                minify: isProd,
                 plugins: [ sveltePlugin({ssr:true})],
             } );
             
@@ -73,7 +72,7 @@ export const build = async (prod = false) => {
                 entrypoints: [import.meta.dir + '/entry/entry-server.ts',...Object.values( router.routes ),],
                 splitting: true,
                 target: 'bun',
-                minify: prod,
+                minify: isProd,
                 outdir: './build/ssr',
                 plugins: [sveltePlugin({ssr: true})],
             } );
@@ -104,6 +103,7 @@ export const build = async (prod = false) => {
             return {clientBuild, serverBuild}
             
         } catch (error) {
+            logger.error(error)
             // error handling needs to be done here
         }
         };

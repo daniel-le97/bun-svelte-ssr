@@ -1,6 +1,10 @@
   <script lang="ts">
     import Counter from '../components/counter.svelte'
   </script>
+
+  <svelte:head>
+    <title>svelte server side rendering with Bun</title>
+  </svelte:head>
   
   <main>
     <div class=" space-x-4">

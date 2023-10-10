@@ -80,6 +80,8 @@ export function serveFromDir (
         
         // @ts-ignore rebuilt every build
         const page = (await import(match.filePath)).default.render()
+        // console.log({page});
+        
         // const page = (await (await import(Bun.resolveSync('./build/ssr/entry/entry-server.js', process.cwd()))).render(match.filePath))
         // console.log(page);
         
@@ -87,9 +89,15 @@ export function serveFromDir (
         // @ts-ignore rebuilt every build
         // const css = (await import(Bun.resolveSync('./build/ssr/main.css.js', process.cwd()))).default
 
-        const css = await Bun.file(ASSETS_DIR + '/output.css').text()
+        const tailwind = await Bun.file(ASSETS_DIR + '/output.css').text()
+        const tailwindcss = `<style>${tailwind}</style>\n`
+        const svelteHead = page.head ? page.head : ''
+        const svelteCSS = page.css.code ? `<style>${page.css.code}</style>\n` : ''
   
-        const head = `<style>${css}</style>\n`
+       const head = svelteHead + tailwindcss + svelteCSS
+      //  console.log(head);
+       
+        
         
   
                     // set the page javascript we want to fetch for client

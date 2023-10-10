@@ -9,6 +9,6 @@ import postcss_import from 'postcss-import'
 // for postcss and tailwind support without needing to use the cli
 export const postcssAPI = async(path: string, out: string) => {
     const contents = await Bun.file(path).text()
-    const results = await postcss([postcss_import,autoprefixer, tailwindcssNested, tailwindcss]).process(contents, {from: path, to: './assets/output.css'})
+    const results = await postcss([postcss_import,autoprefixer, tailwindcssNested, tailwindcss]).process(contents, {from: path, to: out})
     await Bun.write(out, results.css)
 }

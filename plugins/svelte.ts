@@ -20,7 +20,7 @@ type Options = {
 
 
 
-export let generateTypes: string;
+
 export const sveltePlugin = ( options: Options = {
     'ssr': false,
     preprocessOptions: {
@@ -36,7 +36,7 @@ export const sveltePlugin = ( options: Options = {
         name: 'svelte loader',
         async setup ( build ) {
             const target = build.config?.target === 'browser' ? 'dom' : 'ssr';
-            build.onLoad( { filter: /\.(svelte)$/ }, async ( { path } ) => {
+            build.onLoad( { filter: /\.(svelte|svx)$/ }, async ( { path } ) => {
                 const cache = target === 'dom' ? buildCache : buildServerCache
                 const has = cache.get(path)
                 if (has) {
@@ -44,32 +44,21 @@ export const sveltePlugin = ( options: Options = {
                 }
                 const svelte = await import( "svelte/compiler" );
                 let content = await Bun.file( path ).text();
+                if (path.includes('.svx')) {   
+                    content = (await (await import('mdsvex')).compile(content, options.svx))?.code ?? ''
+                }
+                
                 const processed = await svelte.preprocess( content, preprocess( options.preprocessOptions )  );
                 const compiled = svelte.compile( processed.code, {
                     filename: path,
                     generate: target,
                     hydratable: options.ssr,
-                    // 'css': 'external'
+                    'css': 'external'
                 } );
 
                 cache.set(path, compiled.js.code)
                 return { contents: compiled.js.code, loader: 'js' };
             } );
-            build.onLoad( { filter: /\.svx$/ }, async ( { path } ) => {
-                const svelte = await import( "svelte/compiler" );
-                let content = await Bun.file( path ).text();
-                // currently mdsvex does not work as a preprocessor directly
-                const svx = await compile(content, options.svx) 
-                const processed = await svelte.preprocess( svx?.code!, preprocess( options.preprocessOptions )  );
-
-                const compiled = svelte.compile( processed.code, {
-                    filename: path,
-                    generate: target,
-                    hydratable: options.ssr,
-                } );
-                return { contents: compiled.js.code, loader: 'js' };
-            } );
-           
         },
     };
 }
