@@ -3,6 +3,7 @@ import { readdirSync, statSync } from "fs";
 import type { ServeOptions } from "bun";
 import { FileSystemRouter } from "bun";
 import  htmlContent from './index.html'
+import { clientRouter, serverRouter } from "./plugins/utils/routers.ts";
 
 
 export const PROJECT_ROOT = process.cwd()
@@ -15,19 +16,6 @@ export const port = process.env.PORT ?? 3232
 // add other directories you would like to serve statically here
 export const serveDirectories = [ BUILD_DIR + '/client', ASSETS_DIR];
 
-export const srcRouter = new FileSystemRouter( {
-    style: 'nextjs',
-    dir: './pages'
-} );
-
-export const clientRouter = new FileSystemRouter( {
-    style: 'nextjs',
-    dir: './build/client/pages'
-} );
-export const serverRouter = new FileSystemRouter( {
-    style: 'nextjs',
-    dir: './build/ssr/pages'
-} );
 
 export function serveFromDir (
     serveDirectories: string[],
@@ -101,13 +89,14 @@ export function serveFromDir (
         
   
                     // set the page javascript we want to fetch for client
-        html = html.replace( '{{ dynamicPath }}', '/pages/' + builtMatch.src)
+        html = html
+                    .replace( '{{ dynamicPath }}', '/pages/' + builtMatch.src)
                     // add solids hydration script to the head
                     .replace('<!--html-head-->',  head)
                     // add the server side html to the html markup
                    .replace( '<!--html-body-->', page.html )
   
-  
+        
         // send the finalized html  
         return new Response( html, {
           headers: { "Content-Type": "text/html;charset=utf-8" },
