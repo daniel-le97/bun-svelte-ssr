@@ -1,12 +1,14 @@
 import Elysia from "elysia";
-
-import { isProduction, port, serveDirectories, serveFromDir, serveFromRouter } from "./lib.ts";
-
+import { port, serveDirectories, serveFromDir, serveFromRouter } from "./lib.ts";
 import { autoroutes } from "elysia-autoroutes";
 import { logger } from "./plugins/utils/logger.ts";
+import db from "./db/db.ts";
+
+
 
 
 const app = new Elysia()
+  .get('/database', () => db.query('SELECT * FROM users').all())
   .use(autoroutes({
     'prefix': 'api',
     routesDir: './routes'
