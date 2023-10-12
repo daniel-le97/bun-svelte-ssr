@@ -5,10 +5,14 @@ import { Server } from 'bun'
 import { build } from "./build.ts";
 import { buildCache, buildServerCache } from "./plugins/utils/cache.ts";
 import { logger } from "./plugins/utils/logger.ts";
+import config from "./plugins/utils/config.ts";
+
+
 
 
 let serverProcess: Subprocess | null = null;
 let isRestarting = false;
+
 
 const server: { instance: null | Server } = { instance: null }
 
