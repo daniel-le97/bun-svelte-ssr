@@ -71,7 +71,6 @@ export const build = async (prod = false) => {
                 plugins: [ sveltePlugin({ssr:true})],
             } );
             
-            await Bun.write( BUILD_DIR + '/auto-import.d.ts', await (await autoImport()).generateTypeDeclarations())
             // builds the files our server will be using
             const serverBuild = await Bun.build( {
                 entrypoints: [import.meta.dir + '/entry/entry-server.ts',...Object.values( router.routes ),],
@@ -95,7 +94,8 @@ export const build = async (prod = false) => {
                     outdir: './build',
                     plugins: [html]
                 } );
-                await Bun.write('./build/lib.d.ts', declarations) 
+                await Bun.write( BUILD_DIR + '/lib.d.ts', declarations) 
+                await Bun.write( BUILD_DIR + '/auto-import.d.ts', await (await autoImport()).generateTypeDeclarations())
             }
             
             if (!isProd) {
