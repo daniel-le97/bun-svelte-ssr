@@ -5,6 +5,8 @@ import { existsSync, rmSync } from "fs";
 import { html } from "./plugins/html.ts";
 import { postcssAPI } from "./plugins/postcss.ts";
 import { logger } from "./plugins/utils/logger.ts";
+import { autoImport } from "./plugins/utils/unimport.ts";
+
 
 const isProd = process.env.NODE_ENV === 'production';
 const PROJECT_ROOT = process.cwd();
@@ -20,7 +22,8 @@ const declarations = `
         declare module '*.svg' {
             const content: string;
             export default content;
-        }`
+        }\n
+        `
 
 let hasbuilt = false
 
@@ -56,6 +59,7 @@ export const build = async (prod = false) => {
         const cssBuild = await postcssAPI(
             PROJECT_ROOT + '/assets/app.css',
             PROJECT_ROOT + '/assets/output.css' )
+
             
             // builds the files our client will be fetching
             const clientBuild = await Bun.build( {
@@ -67,6 +71,7 @@ export const build = async (prod = false) => {
                 plugins: [ sveltePlugin({ssr:true})],
             } );
             
+            await Bun.write( BUILD_DIR + '/auto-import.d.ts', await (await autoImport()).generateTypeDeclarations())
             // builds the files our server will be using
             const serverBuild = await Bun.build( {
                 entrypoints: [import.meta.dir + '/entry/entry-server.ts',...Object.values( router.routes ),],

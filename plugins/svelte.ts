@@ -6,6 +6,7 @@ import { transpileTS } from "./utils/transpile.ts";
 import { MdsvexCompileOptions, compile, mdsvex } from "mdsvex";
 import { PreprocessorGroup } from "svelte/compiler";
 import { buildCache, buildServerCache } from "./utils/cache.ts";
+import { autoImport } from "./utils/unimport.ts";
 
 type Options = {
     preprocessOptions?: AutoPreprocessOptions;
@@ -50,8 +51,10 @@ export const sveltePlugin = ( options: Options = {
                 if (path.includes('.svx')) {   
                     content = (await (await import('mdsvex')).compile(content, options.svx))?.code ?? ''
                 }
+
+                const injectImports = await (await autoImport()).injectImports(content)
     
-                const processed = await svelte.preprocess( content, preprocess( options.preprocessOptions )  );
+                const processed = await svelte.preprocess( injectImports.code, preprocess( options.preprocessOptions )  );
                 const compiled = svelte.compile( processed.code, {
                     filename: path,
                     generate: target,

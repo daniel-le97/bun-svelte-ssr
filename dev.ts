@@ -62,7 +62,7 @@ const fileWatch = async ( event: WatchEventType, filename: string | Error | unde
             return;
         }
         
-        const exclude = [ 'build', 'node_modules', '.git' , '.css', 'README', 'sqlite'];
+        const exclude = [ 'build', 'node_modules', '.git' , '.css', 'README', 'sqlite', '.d.ts'];
         if ( exclude.find( excl => filename?.includes( excl ) ) )
         {
             return;

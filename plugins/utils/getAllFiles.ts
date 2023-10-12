@@ -1,28 +1,24 @@
-import { readdirSync } from "fs";
-import * as path from 'path'
+import { promises as fsPromises } from "fs";
+import * as path from 'path';
 
-// helper function used to grab all files in a directory, currently unused
-export default(directories: string[]): string[] => {
-    let files: string[] = [];
+export default async (directories: string[]): Promise<{ [key: string]: string }> => {
+    const fileMap: { [key: string]: string } = {};
 
-    function traverseDirectory(dir: string, baseDir: string) {
-        const entries = readdirSync(dir, { withFileTypes: true });
+    async function traverseDirectory(dir: string, baseDir: string) {
+        const entries = await fsPromises.readdir(dir, { withFileTypes: true });
 
         for (const entry of entries) {
             const fullPath = path.join(dir, entry.name);
             const relativePath = path.relative(baseDir, fullPath);
 
             if (entry.isDirectory()) {
-                traverseDirectory(fullPath, baseDir);
+                await traverseDirectory(fullPath, baseDir);
             } else {
-                files.push(relativePath);
+                fileMap[relativePath] = fullPath;
             }
         }
     }
 
-    for (const directory of directories) {
-        traverseDirectory(directory, directory);
-    }
-
-    return files;
-}
+    await Promise.all(directories.map(directory => traverseDirectory(directory, directory)));
+    return fileMap;
+};

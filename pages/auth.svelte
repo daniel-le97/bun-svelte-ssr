@@ -1,7 +1,6 @@
-<script lang="ts">
-    import Counter from '../components/counter.svelte'
+  <script>
+    import Counter from "../components/counter.svelte";
   </script>
-  
   <main>
     <div>
       <a href="https://bun.sh" target="_blank" rel="noreferrer"> 
@@ -14,6 +13,7 @@
     <h1>test page</h1>
     this is the counter component
     <div class="card">
+  
         <Counter />
     </div>
   
